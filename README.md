@@ -11,3 +11,13 @@ this will do the following:
 * dal will be appended to your `~/.bash_functions` file  
 * a file with the default name `.dal` will be added to your home directory
 After running `setup.sh`, restart your terminal and run `dal --help` for instructions  
+## recomended configurations
+once **dal** is setup, I recommend added the following alias:  
+```
+alias='CD=dal goto'
+```
+this will allow you to do the following  
+```
+dal add my_dir /very/long/path/do/my_dir
+CD my_dir
+```
