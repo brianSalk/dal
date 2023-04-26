@@ -43,18 +43,18 @@ dal() {
 			#+if it does, do nothing
 			#+if not, append alias with path to file
 			local IS_THERE=""
-			IS_THERE=$(awk -v alias="${ALIAS}" 'match($1,"^" alias "$" )' $HOME/.dal)
+			IS_THERE=$(awk -v alias="${ALIAS}" 'match($1,"^" alias "$" )' $HOME/DAL_FILE)
 			if [ -z "${IS_THERE}" ]; then
-				echo "${ALIAS} ${_PATH}" >> $HOME/.dal
+				echo "${ALIAS} ${_PATH}" >> $HOME/DAL_FILE
 			else
 				echo "${ALIAS} already assigned ${_PATH}, use 'update' command to reassign" >&2
 			fi
 			;;
 		all)
 			if [ $# -eq 1 ]; then
-				cat $HOME/.dal
+				cat $HOME/DAL_FILE
 			elif [ $# -eq 2 ]; then
-				awk -v rx="$2" '$1 ~ rx' $HOME/.dal
+				awk -v rx="$2" '$1 ~ rx' $HOME/DAL_FILE
 			else
 				echo "dal all requires zero or one argument(s) in the form of:" >&2
 				echo "dal all [<regex>]"
@@ -71,7 +71,7 @@ dal() {
 			while [ ${2+"x"} ]
 			do
 				ALIAS="$2"
-				sed -ni "/^${ALIAS} .*/!p" $HOME/.dal
+				sed -ni "/^${ALIAS} .*/!p" $HOME/DAL_FILE
 				shift
 			done
 			;;
@@ -85,11 +85,10 @@ dal() {
 			# use line number to get the path.
 			# cd to the path.
 			ALIAS="$2"
-			_PATH=$(awk -v alias="^${ALIAS}$" '$1 ~ alias{print $0; exit}' $HOME/.dal)
+			_PATH=$(awk -v alias="^${ALIAS}$" '$1 ~ alias{print $0; exit}' $HOME/DAL_FILE)
 			_PATH=$(cut -d' ' -f1 --complement <<< "$_PATH")
 			if [ -n "${_PATH}" ]; then
 				cd "${_PATH}"
-				clear
 			else
 				echo "$ALIAS not found, add it with:" >&2
 				echo "dal add $ALIAS <path>" >&2
@@ -104,7 +103,7 @@ dal() {
 			ALIAS="$2"
 			_PATH=""
 			# print the path associated with the alias if one exists
-			_PATH=$(awk -v alias="${ALIAS}" 'match($1, "^" alias "$")' $HOME/.dal)
+			_PATH=$(awk -v alias="${ALIAS}" 'match($1, "^" alias "$")' $HOME/DAL_FILE)
 			echo $(cut -d' ' -f1 --complement <<< ${_PATH})
 			;;
 		update)
@@ -120,8 +119,8 @@ dal() {
 			# update an alias if one exists, else apppend
 			ALIAS="$2"
 			# remove line containing alias
-			sed -ni "/^${ALIAS} .*$/!p" $HOME/.dal
-			echo "${ALIAS} ${_PATH}" >> $HOME/.dal
+			sed -ni "/^${ALIAS} .*$/!p" $HOME/DAL_FILE
+			echo "${ALIAS} ${_PATH}" >> $HOME/DAL_FILE
 			;;
 		*)
 			echo "$1: invalid argument for dal"
