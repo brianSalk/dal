@@ -14,7 +14,7 @@ After running `setup.sh`, restart your terminal and run `dal --help` for instruc
 ## recomended configurations
 once **dal** is setup, I recommend adding the following alias:  
 ```
-alias='CD=dal goto'
+alias 'CD=dal goto'
 ```
 this will allow you to do the following  
 ```
