@@ -12,7 +12,7 @@ this will do the following:
 * a file with the default name `.dal` will be added to your home directory
 After running `setup.sh`, restart your terminal and run `dal --help` for instructions  
 ## recomended configurations
-once **dal** is setup, I recommend added the following alias:  
+once **dal** is setup, I recommend adding the following alias:  
 ```
 alias='CD=dal goto'
 ```
