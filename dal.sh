@@ -30,6 +30,11 @@ dal() {
 			;;
 		add)
 			if [ $# -eq 3 ]; then
+				if [ ! -d "${3}" ]
+				then
+					>&2 echo "${3} is not a valid directory"
+					return 1
+				fi
 				_PATH="$3"
 			elif [ $# -eq 2 ]; then
 				_PATH=$(pwd)
@@ -88,7 +93,13 @@ dal() {
 			_PATH=$(awk -v alias="^${ALIAS}$" '$1 ~ alias{print $0; exit}' "${HOME}"/DAL_FILE)
 			_PATH=$(cut -d' ' -f1 --complement <<< "$_PATH")
 			if [ -n "${_PATH}" ]; then
-				cd "${_PATH}" || exit 1
+				if [ ! -d "${_PATH}" ]
+				then
+					>&2 echo path "${_PATH}" associated with alias "${ALIAS}" is does not exist 
+					>&2 echo consider deleting or updating the alias
+					return 1
+				fi
+				cd "${_PATH}" || { echo path not found ; return 1; }
 			else
 				echo "$ALIAS not found, add it with:" >&2
 				echo "dal add $ALIAS <path>" >&2
