@@ -121,6 +121,11 @@ dal() {
 			if [ $# -eq 2 ]; then
 				_PATH="$(pwd)"
 			elif [ $# -eq 3 ]; then
+				if [ ! -d "${3}" ]                     
+				then                                   
+					>&2 echo "${3}" is not a valid path
+					return 1                           
+				fi                                     
 				_PATH="$3"
 			else 
 				echo "dal update requires 1 or 2 arguments in the form of:" >&2
