@@ -14,12 +14,12 @@ dal() {
 		   	echo goto: goto path associated with an alias 	
 			echo path: prints the path with the alias
 			echo update: update the path associated with an alias
-			return
+			return 0;
 	fi
 	# first check which command is being used
 	#+ commands are: goto, print, add, del, all, update
 	case $1 in
-		--help)
+		"--help" | "-h" | "help" | "h")
 			echo dal args:
 			echo add: add a new alias or path
 			echo all: prints all paths, accepts an optional regex
