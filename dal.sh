@@ -40,8 +40,9 @@ dal() {
 				_PATH=$(pwd)
 			else
 				echo "dal add requires one or two arguments in the form:" >&2
-				echo "dal add <alias> [<path>...]" >&2
-				return 
+				echo "dal add <alias> [<path>]" >&2
+				echo >&2 "if no path is provided, use working working directory as path"
+				return 1
 			fi
 			ALIAS="$2"
 			# search ~/.dal to see if the argument exists in the file
@@ -102,7 +103,8 @@ dal() {
 				cd "${_PATH}" || { echo path not found ; return 1; }
 			else
 				echo "$ALIAS not found, add it with:" >&2
-				echo "dal add $ALIAS <path>" >&2
+				echo "dal add $ALIAS [<path>]" >&2
+				echo >&2 "if no path provided, working directory will be used as path"
 			fi
 			;;
 		path)
@@ -144,3 +146,4 @@ dal() {
 			;;
 	esac
 }
+alias 'CD=dal goto'
